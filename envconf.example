@@ -1,0 +1,4 @@
+export CLOUDFILES_USER=user
+export CLOUDFILES_KEY=key
+export JRUBY_HOME="$HOME/apps/jruby-1.5.0"
+export EDITOR='$HOME/bin/vim'
