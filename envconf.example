@@ -2,3 +2,6 @@ export CLOUDFILES_USER=user
 export CLOUDFILES_KEY=key
 export JRUBY_HOME="$HOME/apps/jruby-1.5.0"
 export EDITOR='$HOME/bin/vim'
+
+# use a colored prompt, if the terminal has the capability
+force_color_prompt=yes

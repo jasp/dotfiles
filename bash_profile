@@ -1,23 +1,6 @@
 # For config custom for each machine
 [ -f ~/.envconf ] && . ~/.envconf
 
-alias profedit='$EDITOR ~/.bash_profile && source ~/.bash_profile'
-alias l='ls'
-alias ll='ls -l'
-alias la='ls -a'
-alias lla='ls -la'
-alias gitxc='gitx --commit'
-if [ -d /opt/nginx ] ; then
-  alias nginx='sudo /opt/nginx/sbin/nginx'
-  alias stopnginx='sudo /opt/nginx/sbin/nginx -s stop'
-fi
-
-# Write current git branch in prompt
-parse_git_branch() {
-	git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/(\1)/'
-}
-PS1="\u@\h: \W\$(parse_git_branch) $ "
-
 ## Make handy JRuby aliases
 for f in $JRUBY_HOME/bin/*; do
   f=$(basename $f)
@@ -26,10 +9,109 @@ for f in $JRUBY_HOME/bin/*; do
   eval "alias j$f='jruby -S $f'"
 done
 
-export PATH="~/bin:$PATH"
+# set PATH so it includes user's private bin if it exists
+if [ -d "$HOME/bin" ] ; then
+    export PATH="$HOME/bin:$PATH"
+fi
+
+# The rest is only relevant for interactive shels
+[ -z "$PS1" ] && return
+
+# don't put duplicate lines in the history. See bash(1) for more options
+# don't overwrite GNU Midnight Commander's setting of `ignorespace'.
+HISTCONTROL=$HISTCONTROL${HISTCONTROL+,}ignoredups
+# ... or force ignoredups and ignorespace
+HISTCONTROL=ignoreboth
+
+# append to the history file, don't overwrite it
+shopt -s histappend
+
+# for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
+
+# check the window size after each command and, if necessary,
+# update the values of LINES and COLUMNS.
+shopt -s checkwinsize
+
+# set variable identifying the chroot you work in (used in the prompt below)
+if [ -z "$debian_chroot" ] && [ -r /etc/debian_chroot ]; then
+    debian_chroot=$(cat /etc/debian_chroot)
+fi
+
+# set a fancy prompt (non-color, unless we know we "want" color)
+case "$TERM" in
+    xterm-color) color_prompt=yes;;
+esac
+
+if [ -n "$force_color_prompt" ]; then
+    if [ -x /usr/bin/tput ] && tput setaf 1 >&/dev/null; then
+        # We have color support; assume it's compliant with Ecma-48
+        # (ISO/IEC-6429). (Lack of such support is extremely rare, and such
+        # a case would tend to support setf rather than setaf.)
+        color_prompt=yes
+    else
+        color_prompt=
+    fi
+fi
+
+# make less more friendly for non-text input files, see lesspipe(1)
+[ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
+
+# enable color support of ls and also add handy aliases
+if [ -x /usr/bin/dircolors ]; then
+  test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
+  alias ls='ls --color=auto'
+  alias grep='grep --color=auto'
+  alias fgrep='fgrep --color=auto'
+  alias egrep='egrep --color=auto'
+fi
+
+alias profedit='$EDITOR ~/.bash_profile && source ~/.bash_profile'
+alias l='ls'
+alias ll='ls -l'
+alias la='ls -a'
+alias lla='ls -la'
+if [ `which gitx` ]; then
+  alias gitxc='gitx --commit'
+fi
+if [ `which gitg` ]; then
+  alias gitgc='gitg --commit'
+fi
+if [ -d /opt/nginx ]; then
+  alias nginx='sudo /opt/nginx/sbin/nginx'
+  alias stopnginx='sudo /opt/nginx/sbin/nginx -s stop'
+fi
+
+# Alias definitions.
+# For additional alias definitions put them in ~/.bash_aliases
+if [ -f ~/.bash_aliases ]; then
+    . ~/.bash_aliases
+fi
+
+# Write current git branch in prompt
+parse_git_branch() {
+	git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/(\1)/'
+}
+if [ "$color_prompt" = yes ]; then
+    PS1="${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]: \[\033[01;34m\]\W\[\033[00m\]\$(parse_git_branch) \$ "
+else
+    PS1="${debian_chroot:+($debian_chroot)}\u@\h: \W\$(parse_git_branch) \$ "
+fi
+unset color_prompt force_color_prompt
+
+# If this is an xterm set the title to user@host:dir
+case "$TERM" in
+xterm*|rxvt*)
+    PS1="\[\e]0;${debian_chroot:+($debian_chroot)}\u@\h: \w\a\]$PS1"
+    ;;
+*)
+    ;;
+esac
 
 # bash completion helpers
-if [ -x `which brew` ] ; then
+if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
+    . /etc/bash_completion
+fi
+if [ `which brew` ] ; then
   [ -f `brew --prefix`/etc/bash_completion ] && . `brew --prefix`/etc/bash_completion
 fi
 [ -f ~/.git-bash-completion.sh ] && . ~/.git-bash-completion.sh
