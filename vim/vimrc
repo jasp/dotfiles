@@ -61,6 +61,10 @@ map <leader>tf :tabfirst<cr>
 map <leader>tl :tablast<cr>
 map <leader>tm :tabmove
 
+if executable('ack-grep') == 1
+  let g:ackprg="ack-grep\\ -H\\ --nocolor\\ --nogroup\\ --column"
+endif
+
 " Uncomment to use Jamis Buck's file opening plugin
 "map <Leader>t :FuzzyFinderTextMate<Enter>
 
