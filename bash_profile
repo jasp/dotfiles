@@ -87,14 +87,21 @@ if [ -f ~/.bash_aliases ]; then
     . ~/.bash_aliases
 fi
 
+# bash completion helpers
+if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
+    . /etc/bash_completion
+fi
+if [ `which brew` ] ; then
+  [ -f `brew --prefix`/etc/bash_completion ] && . `brew --prefix`/etc/bash_completion
+fi
+[ -f ~/.git-bash-completion.sh ] && . ~/.git-bash-completion.sh
+
 # Write current git branch in prompt
-parse_git_branch() {
-	git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/(\1)/'
-}
+# Your branch is ahead of
 if [ "$color_prompt" = yes ]; then
-    PS1="${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]: \[\033[01;34m\]\W\[\033[00m\]\$(parse_git_branch) \$ "
+    PS1="${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]: \[\033[01;34m\]\W\[\033[00m\]\$(__git_ps1 '(%s)') \$ "
 else
-    PS1="${debian_chroot:+($debian_chroot)}\u@\h: \W\$(parse_git_branch) \$ "
+    PS1="${debian_chroot:+($debian_chroot)}\u@\h: \W\$(__git_ps1 '(%s)') \$ "
 fi
 unset color_prompt force_color_prompt
 
@@ -106,14 +113,5 @@ xterm*|rxvt*)
 *)
     ;;
 esac
-
-# bash completion helpers
-if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
-    . /etc/bash_completion
-fi
-if [ `which brew` ] ; then
-  [ -f `brew --prefix`/etc/bash_completion ] && . `brew --prefix`/etc/bash_completion
-fi
-[ -f ~/.git-bash-completion.sh ] && . ~/.git-bash-completion.sh
 
 if [[ -s ~/.rvm/scripts/rvm ]] ; then source ~/.rvm/scripts/rvm ; fi
