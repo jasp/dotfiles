@@ -84,3 +84,6 @@ map <Leader>o :FuzzyFinderTextMate<Enter>
 if has("statusline")
    set statusline=%<%f\ %h%m%r%=%{\"[\".(&fenc==\"\"?&enc:&fenc).((exists(\"+bomb\")\ &&\ &bomb)?\",B\":\"\").\"]\ \"}%k\ %-14.(%l,%c%V%)\ %P
  endif
+
+" Autoremove trailing whitespace
+autocmd FileType c,cpp,java,php,haml,rb,erb autocmd BufWritePre <buffer> :call setline(1,map(getline(1,"$"),'substitute(v:val,"\\s\\+$","","")'))
