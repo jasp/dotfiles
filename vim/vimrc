@@ -87,3 +87,7 @@ if has("statusline")
 
 " Autoremove trailing whitespace
 autocmd FileType c,cpp,java,php,haml,rb,erb autocmd BufWritePre <buffer> :call setline(1,map(getline(1,"$"),'substitute(v:val,"\\s\\+$","","")'))
+
+set fuoptions=maxvert,maxhorz
+map <f5> :set fullscreen<cr>
+map <f6> :set nofullscreen<cr>
