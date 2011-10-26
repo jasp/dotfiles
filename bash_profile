@@ -70,6 +70,14 @@ if [ -x /usr/bin/dircolors ]; then
   alias egrep='egrep --color=auto'
 fi
 
+function be {
+  if [[ -a Gemfile ]]; then
+    bundle exec $*
+  else
+    command $*
+  fi
+}
+
 alias profedit='$EDITOR ~/.bash_profile && source ~/.bash_profile'
 alias l='ls'
 alias ll='ls -l'
