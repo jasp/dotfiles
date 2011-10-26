@@ -14,6 +14,11 @@ if [ -d "$HOME/bin" ] ; then
     export PATH="$HOME/bin:$PATH"
 fi
 
+# Google developer toools
+if [ -d "$HOME/apps/depot_tools" ] ; then
+    export PATH="$HOME/apps/depot_tools:$PATH"
+fi
+
 # The rest is only relevant for interactive shels
 [ -z "$PS1" ] && return
 
