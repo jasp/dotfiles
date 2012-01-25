@@ -31,3 +31,6 @@
 [submodule "vim/bundle/bundler"]
 	path = vim/bundle/bundler
 	url = https://github.com/tpope/vim-bundler.git
+[submodule "vim/bundle/capybara"]
+	path = vim/bundle/capybara
+	url = https://github.com/asux/vim-capybara.git
