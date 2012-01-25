@@ -34,3 +34,6 @@
 [submodule "vim/bundle/capybara"]
 	path = vim/bundle/capybara
 	url = https://github.com/asux/vim-capybara.git
+[submodule "vim/bundle/jquery"]
+	path = vim/bundle/jquery
+	url = https://github.com/itspriddle/vim-jquery.git
