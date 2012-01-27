@@ -20,7 +20,7 @@ if [ -d "$HOME/apps/depot_tools" ] ; then
 fi
 
 # The rest is only relevant for interactive shels
-[ -z "$PS1" ] && return
+if [ ! -z "$PS1" ] ; then
 
 # don't put duplicate lines in the history. See bash(1) for more options
 # don't overwrite GNU Midnight Commander's setting of `ignorespace'.
@@ -83,10 +83,10 @@ alias l='ls'
 alias ll='ls -l'
 alias la='ls -a'
 alias lla='ls -la'
-if [ `which gitx` ]; then
+if [ `which gitx 2> /dev/null` ]; then
   alias gitxc='gitx --commit'
 fi
-if [ `which gitg` ]; then
+if [ `which gitg 2> /dev/null` ]; then
   alias gitgc='gitg --commit'
 fi
 if [ -d /opt/nginx ]; then
@@ -104,7 +104,10 @@ fi
 if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
     . /etc/bash_completion
 fi
-if [ `which brew` ] ; then
+if [ -f /etc/profile.d/bash-completion.sh ] && ! shopt -oq posix; then
+    . /etc/profile.d/bash-completion.sh
+fi
+if [ `which brew 2> /dev/null` ] ; then
   [ -f `brew --prefix`/etc/bash_completion ] && . `brew --prefix`/etc/bash_completion
 fi
 [ -f ~/.git-bash-completion.sh ] && . ~/.git-bash-completion.sh
@@ -127,5 +130,9 @@ xterm*|rxvt*)
     ;;
 esac
 
-if [[ -s ~/.rvm/scripts/rvm ]] ; then source ~/.rvm/scripts/rvm ; fi
+export PATH=$PATH:/usr/local/mspgcc/bin
+
+fi
+
+[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
 [[ -r $rvm_path/scripts/completion ]] && . $rvm_path/scripts/completion
