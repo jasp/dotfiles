@@ -58,3 +58,6 @@
 [submodule "vim/bundle/openscad"]
 	path = vim/bundle/openscad
 	url = https://github.com/rantenki/vim-openscad.git
+[submodule "vim/bundle/vim-colors-solarized"]
+	path = vim/bundle/vim-colors-solarized
+	url = git://github.com/altercation/vim-colors-solarized.git

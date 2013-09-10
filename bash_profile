@@ -115,11 +115,13 @@ if [ `which brew 2> /dev/null` ] ; then
   [ -f `brew --prefix`/etc/bash_completion ] && . `brew --prefix`/etc/bash_completion
 fi
 [ -f ~/.git-bash-completion.sh ] && . ~/.git-bash-completion.sh
+[ -f /usr/share/git/completion/git-completion.bash ] && . /usr/share/git/completion/git-completion.bash
+[ -f /usr/share/git/completion/git-prompt.sh ] && . /usr/share/git/completion/git-prompt.sh
 
 # Write current git branch in prompt
 # Your branch is ahead of
 if [ "$color_prompt" = yes ]; then
-    PS1="${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]: \[\033[01;34m\]\W\[\033[00m\]\$(__git_ps1 '(%s)') \$ "
+    PS1="${debian_chroot:+($debian_chroot)}\[\033[36m\]\u@\h\[\033[00m\]: \[\033[34m\]\W\[\033[00m\]\$(__git_ps1 '(\[\033[33m\]%s\[\033[00m\])') \$ "
 else
     PS1="${debian_chroot:+($debian_chroot)}\u@\h: \W\$(__git_ps1 '(%s)') \$ "
 fi
