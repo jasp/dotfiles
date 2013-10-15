@@ -153,5 +153,9 @@ export PATH=$PATH:~/.local/bin
 
 fi
 
+# Improve ruby development performance
+export RUBY_GC_MALLOC_LIMIT=90000000
+export RUBY_FREE_MIN=200000
+
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
 [[ -r $rvm_path/scripts/completion ]] && . $rvm_path/scripts/completion
