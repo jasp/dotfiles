@@ -2,12 +2,14 @@
 [ -f ~/.envconf ] && . ~/.envconf
 
 ## Make handy JRuby aliases
-for f in $JRUBY_HOME/bin/*; do
-  f=$(basename $f)
-  case $f in jruby*|jirb*|*.bat|*.rb|_*) continue
-  esac
-  eval "alias j$f='jruby -S $f'"
-done
+if [ -n "$JRUBY_HOME" -a -d $JRUBY_HOME/bin ] ; then
+  for f in $JRUBY_HOME/bin/*; do
+    f=$(basename $f)
+    case $f in jruby*|jirb*|*.bat|*.rb|_*) continue
+    esac
+    eval "alias j$f='jruby -S $f'"
+  done
+fi
 
 # set PATH so it includes user's private bin if it exists
 if [ -d "$HOME/bin" ] ; then
