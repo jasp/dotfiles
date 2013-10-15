@@ -11,6 +11,14 @@ if [ -n "$JRUBY_HOME" -a -d $JRUBY_HOME/bin ] ; then
   done
 fi
 
+if [ "$TERM" = "linux" ]; then
+  _SEDCMD='s/.*\*color\([0-9]\{1,\}\).*#\([0-9a-fA-F]\{6\}\).*/\1 \2/p'
+  for i in $(sed -n "$_SEDCMD" $HOME/.Xdefaults | awk '$1 < 16 {printf "\\e"}')P%X%s", $1, $2"''; do
+    echo -en "$i"
+  done
+  clear
+fi
+
 # set PATH so it includes user's private bin if it exists
 if [ -d "$HOME/bin" ] ; then
     export PATH="$HOME/bin:$PATH"
@@ -139,6 +147,9 @@ xterm*|rxvt*)
 esac
 
 export PATH=$PATH:/usr/local/mspgcc/bin
+
+export PATH=$PATH:~/.local/bin
+#[[ -f .local/lib/python3.3/site-packages/powerline/bindings/bash/powerline.sh ]] && source .local/lib/python3.3/site-packages/powerline/bindings/bash/powerline.sh
 
 fi
 

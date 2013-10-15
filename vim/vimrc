@@ -103,3 +103,7 @@ if &diff
   map <leader>2 :diffget BASE<CR>
   map <leader>3 :diffget REMOTE<CR>
 endif
+
+python from powerline.vim import setup as powerline_setup
+python powerline_setup()
+python del powerline_setup
