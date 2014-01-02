@@ -107,3 +107,6 @@ endif
 python from powerline.vim import setup as powerline_setup
 python powerline_setup()
 python del powerline_setup
+
+" Convert hashrocket to new syntax
+let @h = "xepldf>/:[0-9a-z_]* *=>lh"
